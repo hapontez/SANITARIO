@@ -5,6 +5,7 @@
     [Direccion] VARCHAR(50) NOT NULL,
     [Ciudad] VARCHAR(50) NOT NULL,
 	[Id_Director_Medico] INT NOT NULL,
+	[rowversion] [timestamp] NOT NULL,
     CONSTRAINT [PK_Hospital] PRIMARY KEY CLUSTERED ([Id_Hospital] ASC),
     CONSTRAINT [FK_Hospital_Director] FOREIGN KEY ([Id_Director_Medico]) REFERENCES [dbo].[Medico] ([Id_Medico])
 );

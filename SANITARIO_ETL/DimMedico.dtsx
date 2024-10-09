@@ -11,8 +11,8 @@
   DTS:LocaleID="16394"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="18"
-  DTS:VersionGUID="{46988857-8F64-429C-AD6C-A345AFD0D2FD}">
+  DTS:VersionBuild="20"
+  DTS:VersionGUID="{146F123E-0445-4270-B31E-D6E0466ED046}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -1070,13 +1070,21 @@ where [refTable].[Id_Medico] = ?</property>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="136,42"
-          Id="Package\Load Medicos\Get Medicos"
-          TopLeft="334.5,105.5" />
+          Size="145,42"
+          Id="Package\Load Medicos\Load stagging"
+          TopLeft="164.5,275.5" />
+        <NodeLayout
+          Size="124,42"
+          Id="Package\Load Medicos\Load DIM"
+          TopLeft="504.5,281.5" />
         <NodeLayout
           Size="113,42"
           Id="Package\Load Medicos\Lookup"
           TopLeft="340.5,192.5" />
+        <NodeLayout
+          Size="136,42"
+          Id="Package\Load Medicos\Get Medicos"
+          TopLeft="334.5,105.5" />
         <EdgeLayout
           Id="Package\Load Medicos.Paths[OLE DB Source Output]"
           TopLeft="399.75,147.5">
@@ -1099,59 +1107,15 @@ where [refTable].[Id_Medico] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="145,42"
-          Id="Package\Load Medicos\Load stagging"
-          TopLeft="141.5,278.5" />
-        <EdgeLayout
-          Id="Package\Load Medicos.Paths[Lookup Match Output]"
-          TopLeft="397,234.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-183,44"
-              Start="0,0"
-              End="-183,36.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,18" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,18"
-                    Point2="0,22"
-                    Point3="-4,22" />
-                  <mssgle:LineSegment
-                    End="-179,22" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-179,22"
-                    Point2="-183,22"
-                    Point3="-183,26" />
-                  <mssgle:LineSegment
-                    End="-183,36.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-139.69138671875,27,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="124,42"
-          Id="Package\Load Medicos\Load DIM"
-          TopLeft="464.5,281.5" />
         <EdgeLayout
           Id="Package\Load Medicos.Paths[Lookup No Match Output]"
           TopLeft="414.5,234.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="112,47"
+              EndConnector="152,47"
               Start="0,0"
-              End="112,39.5">
+              End="152,39.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -1162,20 +1126,56 @@ where [refTable].[Id_Medico] = ?</property>
                     Point2="0,19.1937172774869"
                     Point3="4,19.1937172774869" />
                   <mssgle:LineSegment
-                    End="108,19.1937172774869" />
+                    End="148,19.1937172774869" />
                   <mssgle:CubicBezierSegment
-                    Point1="108,19.1937172774869"
-                    Point2="112,19.1937172774869"
-                    Point3="112,23.1937172774869" />
+                    Point1="148,19.1937172774869"
+                    Point2="152,19.1937172774869"
+                    Point3="152,23.1937172774869" />
                   <mssgle:LineSegment
-                    End="112,39.5" />
+                    End="152,39.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="0.193613281250002,24.1937172774869,111.6127734375,11.609375"
+              BoundingBox="20.19361328125,24.1937172774869,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Medicos.Paths[Lookup Match Output]"
+          TopLeft="379.5,234.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-142.5,41"
+              Start="0,0"
+              End="-142.5,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,12.7434554973822" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,12.7434554973822"
+                    Point2="0,16.7434554973822"
+                    Point3="-4,16.7434554973822" />
+                  <mssgle:LineSegment
+                    End="-138.5,16.7434554973822" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-138.5,16.7434554973822"
+                    Point2="-142.5,16.7434554973822"
+                    Point3="-142.5,20.7434554973822" />
+                  <mssgle:LineSegment
+                    End="-142.5,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-119.44138671875,21.7434554973822,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -1214,7 +1214,7 @@ where [refTable].[Id_Medico] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -1224,7 +1224,7 @@ where [refTable].[Id_Medico] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>

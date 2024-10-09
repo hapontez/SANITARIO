@@ -4,5 +4,6 @@
     [Nombre] VARCHAR(50) NOT NULL,
     [Apellidos] VARCHAR(50) NOT NULL,
     [FechaNacimiento] DATETIME NOT NULL,
+	[rowversion] [timestamp] NOT NULL,
     CONSTRAINT [PK_Medico] PRIMARY KEY CLUSTERED ([Id_Medico] ASC)
 );

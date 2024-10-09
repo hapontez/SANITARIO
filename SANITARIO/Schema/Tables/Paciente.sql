@@ -5,5 +5,6 @@
     [Apellido] NVARCHAR(50) NOT NULL,
     [Fecha_Nacimiento] DATETIME NOT NULL,
     [Nro_Seguro] INT NOT NULL,
+	[rowversion] [timestamp] NOT NULL,
     CONSTRAINT [PK_Paciente] PRIMARY KEY CLUSTERED ([Id_Paciente] ASC)
 );

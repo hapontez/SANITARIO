@@ -11,5 +11,5 @@ Plantilla de script posterior a la implementación
 */
 
 :r .\PackageConfig.data.sql	
-:r .\DimFecha.data.sql	
-:r .\PatchDimFecha.data.sql	
+:r .\DimTiempo.data.sql	
+:r .\PatchDimTiempo.data.sql	
