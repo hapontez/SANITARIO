@@ -2,9 +2,9 @@
 (
 	[Id_Visita] [int] NOT NULL,
 	[Id_Detalle_Visita] [int] NOT NULL,
-	[SK_Paciente] [int] NOT NULL,
-	[SK_Hospital] [int] NOT NULL,
-	[SK_Medico] [int] NOT NULL,
+	[SK_Paciente] [int] NULL,
+	[SK_Hospital] [int] NULL,
+	[SK_Medico] [int] NULL,
 	[Fecha_Visita] [date] NOT NULL,
 	[Nombre_Servicio] VARCHAR(50) NULL,
 	[Cargo_MHS] [varchar](50) NULL,
@@ -20,6 +20,6 @@
 	[es_Reconsulta] [int] NULL,
 	[Id_Visita_inicial] [int] NOT NULL,
 	[Precio_Visita] [float] NULL,
-	[datos_adicionales] [float] NULL,
+	[datos_adicionales] VARCHAR(1000) NULL,
 	[Tiempo_Key] [int] NOT NULL,
 )

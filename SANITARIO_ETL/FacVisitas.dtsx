@@ -11,8 +11,8 @@
   DTS:LocaleID="16394"
   DTS:ObjectName="FacVisitas"
   DTS:PackageType="5"
-  DTS:VersionBuild="68"
-  DTS:VersionGUID="{2F310430-40F7-4BE6-BE1A-2EA4ED68C45F}">
+  DTS:VersionBuild="72"
+  DTS:VersionGUID="{A77D074B-E724-482D-B981-73ECEBF43FA6}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -358,15 +358,6 @@
                       name="Fecha_Salida"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[PrecioMHS]"
-                      dataType="r8"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[PrecioMHS]"
-                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[PrecioMHS]"
-                      name="PrecioMHS"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
                       refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Precio_Visita]"
                       dataType="r8"
                       errorOrTruncationOperation="Conversion"
@@ -403,6 +394,15 @@
                       externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Tiempo_Key]"
                       lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Tiempo_Key]"
                       name="Tiempo_Key"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Precio_MHS]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Precio_MHS]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Precio_MHS]"
+                      name="Precio_MHS"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
@@ -482,10 +482,6 @@
                       dataType="dbTimeStamp"
                       name="Fecha_Salida" />
                     <externalMetadataColumn
-                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[PrecioMHS]"
-                      dataType="r8"
-                      name="PrecioMHS" />
-                    <externalMetadataColumn
                       refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Precio_Visita]"
                       dataType="r8"
                       name="Precio_Visita" />
@@ -503,6 +499,10 @@
                       refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Tiempo_Key]"
                       dataType="i4"
                       name="Tiempo_Key" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Precio_MHS]"
+                      dataType="r8"
+                      name="Precio_MHS" />
                   </externalMetadataColumns>
                 </output>
                 <output
@@ -597,10 +597,10 @@
                       lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Fecha_Salida]"
                       name="Fecha_Salida" />
                     <outputColumn
-                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[PrecioMHS]"
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Precio_MHS]"
                       dataType="r8"
-                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[PrecioMHS]"
-                      name="PrecioMHS" />
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Precio_MHS]"
+                      name="Precio_MHS" />
                     <outputColumn
                       refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[es_Reconsulta]"
                       dataType="i4"
@@ -713,7 +713,7 @@
                 <input
                   refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
-                  errorRowDisposition="IgnoreFailure"
+                  errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
@@ -852,11 +852,11 @@
                       externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[SK_Medico]"
                       lineageId="Package\Load Visita\Lookup Medico.Outputs[Lookup Match Output].Columns[SK_Medico]" />
                     <inputColumn
-                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[PrecioMHS]"
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[Precio_MHS]"
                       cachedDataType="r8"
-                      cachedName="PrecioMHS"
+                      cachedName="Precio_MHS"
                       externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Precio_MHS]"
-                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[PrecioMHS]" />
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Precio_MHS]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -1050,7 +1050,7 @@
                 <input
                   refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
-                  errorRowDisposition="IgnoreFailure"
+                  errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
@@ -1175,12 +1175,6 @@
                       externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[SK_Medico]"
                       lineageId="Package\Load Visita\Lookup Medico.Outputs[Lookup Match Output].Columns[SK_Medico]" />
                     <inputColumn
-                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[PrecioMHS]"
-                      cachedDataType="r8"
-                      cachedName="PrecioMHS"
-                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Precio_MHS]"
-                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[PrecioMHS]" />
-                    <inputColumn
                       refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[Tiempo_Key]"
                       cachedDataType="i4"
                       cachedName="Tiempo_Key"
@@ -1194,6 +1188,12 @@
                       cachedName="Nombre_Servicio"
                       externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Nombre_Servicio]"
                       lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Nombre_Servicio]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[Precio_MHS]"
+                      cachedDataType="r8"
+                      cachedName="Precio_MHS"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Precio_MHS]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Precio_MHS]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">

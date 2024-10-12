@@ -12,7 +12,7 @@ BEGIN
 	INNER JOIN SANITARIO_OLTP.dbo.Visita V ON V.Id_Visita = DV.Id_Visita)
 	SELECT V.Id_Visita, V.Id_Detalle_Visita, V.Id_Paciente, SH.Id_Hospital, V.Id_Medico, V.FechaHora Fecha_Visita, S.Nombre Nombre_Servicio, V.Cargo Cargo_MHS
 	,SH.Precio Precio_Ser_Hosp, V.Diagnostico, V.Es_Internacion, V.Id_Cama, V.Cantidad_Dias, V.Precio_Dias_Cama,  V.Fecha_Ingreso 
-	,V.Fecha_Salida, V.PrecioMHS, V.es_Reconsulta, V.Id_Visita_inicial, V.Precio_Visita, V.datos_adicionales,Tiempo_Key = CONVERT(INT,
+	,V.Fecha_Salida, V.PrecioMHS Precio_MHS, V.es_Reconsulta, V.Id_Visita_inicial, V.Precio_Visita, V.datos_adicionales,Tiempo_Key = CONVERT(INT,
 							(CONVERT(CHAR(4),DATEPART(YEAR,V.FechaHora))
 						  + CASE 
 								WHEN DATEPART(MONTH,V.FechaHora) < 10 THEN '0' + CONVERT(CHAR(1),DATEPART(MONTH,V.FechaHora))
