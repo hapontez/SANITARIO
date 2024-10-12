@@ -19,3 +19,10 @@ IF NOT EXISTS(SELECT TOP(1) 1
   INSERT [dbo].[PackageConfig] ([TableName], [LastRowVersion]) VALUES ('Paciente', 0)
  END
 GO
+IF NOT EXISTS(SELECT TOP(1) 1
+              FROM [dbo].[PackageConfig]
+			  WHERE [TableName] = 'Visita')
+ BEGIN
+  INSERT [dbo].[PackageConfig] ([TableName], [LastRowVersion]) VALUES ('Visita', 0)
+ END
+GO

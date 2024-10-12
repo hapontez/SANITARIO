@@ -1,4 +1,25 @@
-﻿CREATE TABLE [dbo].[Table1]
+﻿CREATE TABLE [staging].[Visita]
 (
-	[SK_Visita] INT NOT NULL PRIMARY KEY
+	[Id_Visita] [int] NOT NULL,
+	[Id_Detalle_Visita] [int] NOT NULL,
+	[SK_Paciente] [int] NOT NULL,
+	[SK_Hospital] [int] NOT NULL,
+	[SK_Medico] [int] NOT NULL,
+	[Fecha_Visita] [date] NOT NULL,
+	[Nombre_Servicio] VARCHAR(50) NULL,
+	[Cargo_MHS] [varchar](50) NULL,
+	[Precio_Ser_Hosp] [int] NULL,
+	[Diagnostico] VARCHAR(200) NULL,
+	[Es_Internacion] [int] NULL,
+	[Id_Cama] [int]  NULL,
+	[Cantidad_Dias] [int]  NULL,
+	[Precio_Dias_Cama] [int] NULL,
+	[Fecha_Ingreso] [date] NOT NULL,
+	[Fecha_Salida] [date] NOT NULL,
+	[Precio_MHS] [int] NULL,
+	[es_Reconsulta] [int] NULL,
+	[Id_Visita_inicial] [int] NOT NULL,
+	[Precio_Visita] [float] NULL,
+	[datos_adicionales] [float] NULL,
+	[Tiempo_Key] [int] NOT NULL,
 )

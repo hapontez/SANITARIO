@@ -79,12 +79,11 @@
     <Build Include="Schema\Tables\staging\staging.Paciente.sql" />
     <Build Include="Schema\Programmability\Stored Procedures\DW_MergeDimPaciente.sql" />
     <Build Include="Schema\Programmability\Stored Procedures\DW_MergeDimHospital.sql" />
-    <Build Include="Schema\Tables\dbo\FacInternacion.sql" />
     <Build Include="Schema\Tables\dbo\DimTiempo.sql" />
-    <Build Include="Schema\Tables\staging\staging.Visitas.sql" />
+    <Build Include="Schema\Tables\staging\staging.Visita.sql" />
+    <Build Include="Schema\Programmability\Stored Procedures\DW_MergeFacVisita.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Schema\Tables\dbo\FacEstudio.sql" />
     <Build Include="Schema\Tables\dbo\FacVisita.sql" />
   </ItemGroup>
   <ItemGroup>

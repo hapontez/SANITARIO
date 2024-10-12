@@ -8,7 +8,6 @@ BEGIN
             Fecha DATETIME
         );
 
-        -- Generar lista de fechas
         WHILE (@startdate <= @enddate)
         BEGIN 
             INSERT INTO @datelist(Fecha)

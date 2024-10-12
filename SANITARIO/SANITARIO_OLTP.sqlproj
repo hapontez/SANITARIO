@@ -76,6 +76,7 @@
     <Build Include="Schema\Tables\Medico_Hospital_Servicio.sql" />
     <Build Include="Schema\Programmability\Stored Procedures\GetHospitalChangesByRowVersion.sql" />
     <Build Include="Schema\Programmability\Stored Procedures\GetPacienteChangesByRowVersion.sql" />
+    <Build Include="Schema\Programmability\Stored Procedures\GetVisitaChangesByRowVersion.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\limpiar_datos.sql" />

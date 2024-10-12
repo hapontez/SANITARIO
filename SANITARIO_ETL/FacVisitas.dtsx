@@ -1,0 +1,2575 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/7/2024 11:24:52 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="WEIMAR-PC"
+  DTS:CreatorName="WEIMAR-PC\weima"
+  DTS:DTSID="{3F0F42FE-672D-4795-8A6A-D4A89E0B10A0}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5685.0"
+  DTS:LocaleID="16394"
+  DTS:ObjectName="FacVisitas"
+  DTS:PackageType="5"
+  DTS:VersionBuild="68"
+  DTS:VersionGUID="{2F310430-40F7-4BE6-BE1A-2EA4ED68C45F}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SANITARIO_DW]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{35CC139C-4A85-49AF-BA21-D34D8902D63F}"
+      DTS:ObjectName="SANITARIO_DW">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=;Initial Catalog=SANITARIO_DW;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package-{35CC139C-4A85-49AF-BA21-D34D8902D63F}Weimar-PC.SANITARIO_DW;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SANITARIO_OLTP]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{7E9A875A-7814-4AFE-A1D0-1E384CA40629}"
+      DTS:ObjectName="SANITARIO_OLTP">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=;Initial Catalog=SANITARIO_OLTP;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package-{7E9A875A-7814-4AFE-A1D0-1E384CA40629}Weimar-PC.SANITARIO_OLTP;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E0AE8693-4B74-4C2A-80D0-0C4012C55C6D}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="dbts">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A93DF8D8-670D-4008-8D4E-5D82D3037135}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="lastRowVersion">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Clean up Stagging"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{9104E97D-1CF7-4E4D-9E18-0BDDC4F7BA0D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Clean up Stagging"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{35CC139C-4A85-49AF-BA21-D34D8902D63F}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE [staging].[Visita]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Get DataBase RowVersion"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{FD6826AB-34B0-4525-9701-20AA9B2EA84D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get DataBase RowVersion"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7E9A875A-7814-4AFE-A1D0-1E384CA40629}"
+          SQLTask:SqlStatementSource="EXECUTE  [dbo].[GetDatabaseRowVersion] "
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="DBTS"
+            SQLTask:DtsVariableName="User::dbts" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Get LastRowVersion"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{EEC4F677-5763-4EE6-B15D-BDD3DAEAAB22}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get LastRowVersion"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{35CC139C-4A85-49AF-BA21-D34D8902D63F}"
+          SQLTask:SqlStatementSource="EXECUTE [dbo].[GetLastPackageRowVersion] @tableName = 'Visita'"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="LastRowVersion"
+            SQLTask:DtsVariableName="User::lastRowVersion" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Visita"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{9437631E-6B9A-44EF-936E-11D90E20DDBC}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Visita"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Visita\Get Visita"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Get Visita"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">EXECUTE [dbo].[GetVisitaChangesByRowVersion] @startRow = ? ,@endRow = ?</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping">"@startRow:Input",{A93DF8D8-670D-4008-8D4E-5D82D3037135};"@endRow:Input",{E0AE8693-4B74-4C2A-80D0-0C4012C55C6D};</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Visita\Get Visita.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[SANITARIO_OLTP]"
+                  connectionManagerRefId="Package.ConnectionManagers[SANITARIO_OLTP]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Paciente]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Id_Paciente]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Paciente]"
+                      name="Id_Paciente"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[es_Reconsulta]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[es_Reconsulta]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[es_Reconsulta]"
+                      name="es_Reconsulta"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Visita_inicial]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Id_Visita_inicial]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Visita_inicial]"
+                      name="Id_Visita_inicial"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Detalle_Visita]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Id_Detalle_Visita]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Detalle_Visita]"
+                      name="Id_Detalle_Visita"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Hospital]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Id_Hospital]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Hospital]"
+                      name="Id_Hospital"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Medico]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Id_Medico]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Medico]"
+                      name="Id_Medico"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Fecha_Visita]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Fecha_Visita]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Fecha_Visita]"
+                      name="Fecha_Visita"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Nombre_Servicio]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Nombre_Servicio]"
+                      length="50"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Nombre_Servicio]"
+                      name="Nombre_Servicio"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Cargo_MHS]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Cargo_MHS]"
+                      length="50"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Cargo_MHS]"
+                      name="Cargo_MHS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Precio_Ser_Hosp]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Precio_Ser_Hosp]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Precio_Ser_Hosp]"
+                      name="Precio_Ser_Hosp"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Diagnostico]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Diagnostico]"
+                      length="200"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Diagnostico]"
+                      name="Diagnostico"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Es_Internacion]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Es_Internacion]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Es_Internacion]"
+                      name="Es_Internacion"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Cama]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Id_Cama]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Cama]"
+                      name="Id_Cama"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Cantidad_Dias]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Cantidad_Dias]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Cantidad_Dias]"
+                      name="Cantidad_Dias"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Precio_Dias_Cama]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Precio_Dias_Cama]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Precio_Dias_Cama]"
+                      name="Precio_Dias_Cama"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Fecha_Ingreso]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Fecha_Ingreso]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Fecha_Ingreso]"
+                      name="Fecha_Ingreso"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Fecha_Salida]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Fecha_Salida]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Fecha_Salida]"
+                      name="Fecha_Salida"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[PrecioMHS]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[PrecioMHS]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[PrecioMHS]"
+                      name="PrecioMHS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Precio_Visita]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Precio_Visita]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Precio_Visita]"
+                      name="Precio_Visita"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[datos_adicionales]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[datos_adicionales]"
+                      length="1000"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[datos_adicionales]"
+                      name="datos_adicionales"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Visita]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Id_Visita]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Visita]"
+                      name="Id_Visita"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Tiempo_Key]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Tiempo_Key]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Tiempo_Key]"
+                      name="Tiempo_Key"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Id_Paciente]"
+                      dataType="i4"
+                      name="Id_Paciente" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[es_Reconsulta]"
+                      dataType="i4"
+                      name="es_Reconsulta" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Id_Visita_inicial]"
+                      dataType="i4"
+                      name="Id_Visita_inicial" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Id_Detalle_Visita]"
+                      dataType="i4"
+                      name="Id_Detalle_Visita" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Id_Hospital]"
+                      dataType="i4"
+                      name="Id_Hospital" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Id_Medico]"
+                      dataType="i4"
+                      name="Id_Medico" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Fecha_Visita]"
+                      dataType="dbTimeStamp"
+                      name="Fecha_Visita" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Nombre_Servicio]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Nombre_Servicio" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Cargo_MHS]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Cargo_MHS" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Precio_Ser_Hosp]"
+                      dataType="r8"
+                      name="Precio_Ser_Hosp" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Diagnostico]"
+                      codePage="1252"
+                      dataType="str"
+                      length="200"
+                      name="Diagnostico" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Es_Internacion]"
+                      dataType="i4"
+                      name="Es_Internacion" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Id_Cama]"
+                      dataType="i4"
+                      name="Id_Cama" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Cantidad_Dias]"
+                      dataType="i4"
+                      name="Cantidad_Dias" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Precio_Dias_Cama]"
+                      dataType="r8"
+                      name="Precio_Dias_Cama" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Fecha_Ingreso]"
+                      dataType="dbTimeStamp"
+                      name="Fecha_Ingreso" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Fecha_Salida]"
+                      dataType="dbTimeStamp"
+                      name="Fecha_Salida" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[PrecioMHS]"
+                      dataType="r8"
+                      name="PrecioMHS" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Precio_Visita]"
+                      dataType="r8"
+                      name="Precio_Visita" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[datos_adicionales]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1000"
+                      name="datos_adicionales" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Id_Visita]"
+                      dataType="i4"
+                      name="Id_Visita" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].ExternalColumns[Tiempo_Key]"
+                      dataType="i4"
+                      name="Tiempo_Key" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Id_Visita]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Id_Visita]"
+                      name="Id_Visita" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Id_Detalle_Visita]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Id_Detalle_Visita]"
+                      name="Id_Detalle_Visita" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Id_Paciente]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Id_Paciente]"
+                      name="Id_Paciente" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Id_Hospital]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Id_Hospital]"
+                      name="Id_Hospital" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Id_Medico]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Id_Medico]"
+                      name="Id_Medico" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Fecha_Visita]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Fecha_Visita]"
+                      name="Fecha_Visita" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Nombre_Servicio]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Nombre_Servicio]"
+                      name="Nombre_Servicio" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Cargo_MHS]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Cargo_MHS]"
+                      name="Cargo_MHS" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Precio_Ser_Hosp]"
+                      dataType="r8"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Precio_Ser_Hosp]"
+                      name="Precio_Ser_Hosp" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Diagnostico]"
+                      codePage="1252"
+                      dataType="str"
+                      length="200"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Diagnostico]"
+                      name="Diagnostico" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Es_Internacion]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Es_Internacion]"
+                      name="Es_Internacion" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Id_Cama]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Id_Cama]"
+                      name="Id_Cama" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Cantidad_Dias]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Cantidad_Dias]"
+                      name="Cantidad_Dias" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Precio_Dias_Cama]"
+                      dataType="r8"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Precio_Dias_Cama]"
+                      name="Precio_Dias_Cama" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Fecha_Ingreso]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Fecha_Ingreso]"
+                      name="Fecha_Ingreso" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Fecha_Salida]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Fecha_Salida]"
+                      name="Fecha_Salida" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[PrecioMHS]"
+                      dataType="r8"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[PrecioMHS]"
+                      name="PrecioMHS" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[es_Reconsulta]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[es_Reconsulta]"
+                      name="es_Reconsulta" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Id_Visita_inicial]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Id_Visita_inicial]"
+                      name="Id_Visita_inicial" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Precio_Visita]"
+                      dataType="r8"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Precio_Visita]"
+                      name="Precio_Visita" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[datos_adicionales]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1000"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[datos_adicionales]"
+                      name="datos_adicionales" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Tiempo_Key]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[Tiempo_Key]"
+                      name="Tiempo_Key" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Visita\Load FacVisita"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Load FacVisita"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[FacVisita]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Visita\Load FacVisita.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[SANITARIO_DW]"
+                  connectionManagerRefId="Package.ConnectionManagers[SANITARIO_DW]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="IgnoreFailure"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[es_Reconsulta]"
+                      cachedDataType="i4"
+                      cachedName="es_Reconsulta"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[es_Reconsulta]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[es_Reconsulta]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[Id_Visita_inicial]"
+                      cachedDataType="i4"
+                      cachedName="Id_Visita_inicial"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Id_Visita_inicial]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Visita_inicial]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[Id_Detalle_Visita]"
+                      cachedDataType="i4"
+                      cachedName="Id_Detalle_Visita"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Id_Detalle_Visita]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Detalle_Visita]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[Fecha_Visita]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Fecha_Visita"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Fecha_Visita]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Fecha_Visita]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[Nombre_Servicio]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Nombre_Servicio"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Nombre_Servicio]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Nombre_Servicio]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[Cargo_MHS]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Cargo_MHS"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Cargo_MHS]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Cargo_MHS]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[Precio_Ser_Hosp]"
+                      cachedDataType="r8"
+                      cachedName="Precio_Ser_Hosp"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Precio_Ser_Hosp]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Precio_Ser_Hosp]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[Diagnostico]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="200"
+                      cachedName="Diagnostico"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Diagnostico]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Diagnostico]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[Es_Internacion]"
+                      cachedDataType="i4"
+                      cachedName="Es_Internacion"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Es_Internacion]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Es_Internacion]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[Id_Cama]"
+                      cachedDataType="i4"
+                      cachedName="Id_Cama"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Id_Cama]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Cama]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[Cantidad_Dias]"
+                      cachedDataType="i4"
+                      cachedName="Cantidad_Dias"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Cantidad_Dias]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Cantidad_Dias]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[Precio_Dias_Cama]"
+                      cachedDataType="r8"
+                      cachedName="Precio_Dias_Cama"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Precio_Dias_Cama]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Precio_Dias_Cama]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[Fecha_Ingreso]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Fecha_Ingreso"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Fecha_Ingreso]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Fecha_Ingreso]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[Fecha_Salida]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Fecha_Salida"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Fecha_Salida]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Fecha_Salida]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[Precio_Visita]"
+                      cachedDataType="r8"
+                      cachedName="Precio_Visita"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Precio_Visita]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Precio_Visita]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[datos_adicionales]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1000"
+                      cachedName="datos_adicionales"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[datos_adicionales]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[datos_adicionales]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[Id_Visita]"
+                      cachedDataType="i4"
+                      cachedName="Id_Visita"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Id_Visita]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Visita]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[Tiempo_Key]"
+                      cachedDataType="i4"
+                      cachedName="Tiempo_Key"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Tiempo_Key]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Tiempo_Key]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[SK_Paciente]"
+                      cachedDataType="i4"
+                      cachedName="SK_Paciente"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[SK_Paciente]"
+                      lineageId="Package\Load Visita\Lookup Paciente.Outputs[Lookup Match Output].Columns[SK_Paciente]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[SK_Hospital]"
+                      cachedDataType="i4"
+                      cachedName="SK_Hospital"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[SK_Hospital]"
+                      lineageId="Package\Load Visita\Lookup Hospital.Outputs[Lookup Match Output].Columns[SK_Hospital]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[SK_Medico]"
+                      cachedDataType="i4"
+                      cachedName="SK_Medico"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[SK_Medico]"
+                      lineageId="Package\Load Visita\Lookup Medico.Outputs[Lookup Match Output].Columns[SK_Medico]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].Columns[PrecioMHS]"
+                      cachedDataType="r8"
+                      cachedName="PrecioMHS"
+                      externalMetadataColumnId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Precio_MHS]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[PrecioMHS]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[SK_Hospital]"
+                      dataType="i4"
+                      name="SK_Hospital" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Id_Visita]"
+                      dataType="i4"
+                      name="Id_Visita" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Id_Detalle_Visita]"
+                      dataType="i4"
+                      name="Id_Detalle_Visita" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[SK_Paciente]"
+                      dataType="i4"
+                      name="SK_Paciente" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[SK_Medico]"
+                      dataType="i4"
+                      name="SK_Medico" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Fecha_Visita]"
+                      dataType="dbDate"
+                      name="Fecha_Visita" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Nombre_Servicio]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Nombre_Servicio" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Cargo_MHS]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Cargo_MHS" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Precio_Ser_Hosp]"
+                      dataType="i4"
+                      name="Precio_Ser_Hosp" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Diagnostico]"
+                      codePage="1252"
+                      dataType="str"
+                      length="200"
+                      name="Diagnostico" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Es_Internacion]"
+                      dataType="i4"
+                      name="Es_Internacion" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Id_Cama]"
+                      dataType="i4"
+                      name="Id_Cama" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Cantidad_Dias]"
+                      dataType="i4"
+                      name="Cantidad_Dias" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Precio_Dias_Cama]"
+                      dataType="i4"
+                      name="Precio_Dias_Cama" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Fecha_Ingreso]"
+                      dataType="dbDate"
+                      name="Fecha_Ingreso" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Fecha_Salida]"
+                      dataType="dbDate"
+                      name="Fecha_Salida" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Precio_MHS]"
+                      dataType="i4"
+                      name="Precio_MHS" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[es_Reconsulta]"
+                      dataType="i4"
+                      name="es_Reconsulta" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Id_Visita_inicial]"
+                      dataType="i4"
+                      name="Id_Visita_inicial" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Precio_Visita]"
+                      dataType="r8"
+                      name="Precio_Visita" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[datos_adicionales]"
+                      dataType="r8"
+                      name="datos_adicionales" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input].ExternalColumns[Tiempo_Key]"
+                      dataType="i4"
+                      name="Tiempo_Key" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Visita\Load FacVisita.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Visita\Load FacVisita.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Load FacVisita.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Visita\Load FacVisita.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Load FacVisita.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Visita\Load stagging"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Load stagging"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[staging].[Visita]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Visita\Load stagging.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[SANITARIO_DW]"
+                  connectionManagerRefId="Package.ConnectionManagers[SANITARIO_DW]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="IgnoreFailure"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[es_Reconsulta]"
+                      cachedDataType="i4"
+                      cachedName="es_Reconsulta"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[es_Reconsulta]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[es_Reconsulta]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[Id_Visita_inicial]"
+                      cachedDataType="i4"
+                      cachedName="Id_Visita_inicial"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Id_Visita_inicial]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Visita_inicial]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[Id_Detalle_Visita]"
+                      cachedDataType="i4"
+                      cachedName="Id_Detalle_Visita"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Id_Detalle_Visita]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Detalle_Visita]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[Fecha_Visita]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Fecha_Visita"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Fecha_Visita]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Fecha_Visita]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[Cargo_MHS]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Cargo_MHS"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Cargo_MHS]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Cargo_MHS]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[Precio_Ser_Hosp]"
+                      cachedDataType="r8"
+                      cachedName="Precio_Ser_Hosp"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Precio_Ser_Hosp]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Precio_Ser_Hosp]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[Diagnostico]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="200"
+                      cachedName="Diagnostico"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Diagnostico]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Diagnostico]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[Es_Internacion]"
+                      cachedDataType="i4"
+                      cachedName="Es_Internacion"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Es_Internacion]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Es_Internacion]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[Id_Cama]"
+                      cachedDataType="i4"
+                      cachedName="Id_Cama"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Id_Cama]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Cama]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[Cantidad_Dias]"
+                      cachedDataType="i4"
+                      cachedName="Cantidad_Dias"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Cantidad_Dias]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Cantidad_Dias]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[Precio_Dias_Cama]"
+                      cachedDataType="r8"
+                      cachedName="Precio_Dias_Cama"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Precio_Dias_Cama]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Precio_Dias_Cama]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[Fecha_Ingreso]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Fecha_Ingreso"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Fecha_Ingreso]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Fecha_Ingreso]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[Fecha_Salida]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Fecha_Salida"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Fecha_Salida]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Fecha_Salida]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[Precio_Visita]"
+                      cachedDataType="r8"
+                      cachedName="Precio_Visita"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Precio_Visita]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Precio_Visita]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[datos_adicionales]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1000"
+                      cachedName="datos_adicionales"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[datos_adicionales]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[datos_adicionales]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[Id_Visita]"
+                      cachedDataType="i4"
+                      cachedName="Id_Visita"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Id_Visita]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Visita]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[SK_Paciente]"
+                      cachedDataType="i4"
+                      cachedName="SK_Paciente"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[SK_Paciente]"
+                      lineageId="Package\Load Visita\Lookup Paciente.Outputs[Lookup Match Output].Columns[SK_Paciente]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[SK_Hospital]"
+                      cachedDataType="i4"
+                      cachedName="SK_Hospital"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[SK_Hospital]"
+                      lineageId="Package\Load Visita\Lookup Hospital.Outputs[Lookup Match Output].Columns[SK_Hospital]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[SK_Medico]"
+                      cachedDataType="i4"
+                      cachedName="SK_Medico"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[SK_Medico]"
+                      lineageId="Package\Load Visita\Lookup Medico.Outputs[Lookup Match Output].Columns[SK_Medico]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[PrecioMHS]"
+                      cachedDataType="r8"
+                      cachedName="PrecioMHS"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Precio_MHS]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[PrecioMHS]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[Tiempo_Key]"
+                      cachedDataType="i4"
+                      cachedName="Tiempo_Key"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Tiempo_Key]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Tiempo_Key]" />
+                    <inputColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].Columns[Nombre_Servicio]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Nombre_Servicio"
+                      externalMetadataColumnId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Nombre_Servicio]"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Nombre_Servicio]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[SK_Paciente]"
+                      dataType="i4"
+                      name="SK_Paciente" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Id_Visita]"
+                      dataType="i4"
+                      name="Id_Visita" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Id_Detalle_Visita]"
+                      dataType="i4"
+                      name="Id_Detalle_Visita" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[SK_Hospital]"
+                      dataType="i4"
+                      name="SK_Hospital" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[SK_Medico]"
+                      dataType="i4"
+                      name="SK_Medico" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Fecha_Visita]"
+                      dataType="dbDate"
+                      name="Fecha_Visita" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Nombre_Servicio]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Nombre_Servicio" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Cargo_MHS]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Cargo_MHS" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Precio_Ser_Hosp]"
+                      dataType="i4"
+                      name="Precio_Ser_Hosp" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Diagnostico]"
+                      codePage="1252"
+                      dataType="str"
+                      length="200"
+                      name="Diagnostico" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Es_Internacion]"
+                      dataType="i4"
+                      name="Es_Internacion" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Id_Cama]"
+                      dataType="i4"
+                      name="Id_Cama" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Cantidad_Dias]"
+                      dataType="i4"
+                      name="Cantidad_Dias" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Precio_Dias_Cama]"
+                      dataType="i4"
+                      name="Precio_Dias_Cama" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Fecha_Ingreso]"
+                      dataType="dbDate"
+                      name="Fecha_Ingreso" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Fecha_Salida]"
+                      dataType="dbDate"
+                      name="Fecha_Salida" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Precio_MHS]"
+                      dataType="i4"
+                      name="Precio_MHS" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[es_Reconsulta]"
+                      dataType="i4"
+                      name="es_Reconsulta" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Id_Visita_inicial]"
+                      dataType="i4"
+                      name="Id_Visita_inicial" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Precio_Visita]"
+                      dataType="r8"
+                      name="Precio_Visita" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[datos_adicionales]"
+                      dataType="r8"
+                      name="datos_adicionales" />
+                    <externalMetadataColumn
+                      refId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input].ExternalColumns[Tiempo_Key]"
+                      dataType="i4"
+                      name="Tiempo_Key" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Visita\Load stagging.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Visita\Load stagging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Load stagging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Visita\Load stagging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Load stagging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Visita\Lookup Hospital"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Hospital"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[DimHospital]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[DimHospital]) [refTable]
+where [refTable].[Id_Hospital] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="SK_Hospital" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Id_Hospital" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Nombre" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="Telefono" dataType="DT_STR" length="20" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="Direccion" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="Ciudad" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="Id_Director_Medico" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Hospital]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Visita\Lookup Hospital.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[SANITARIO_DW]"
+                  connectionManagerRefId="Package.ConnectionManagers[SANITARIO_DW]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Visita\Lookup Hospital.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Visita\Lookup Hospital.Inputs[Lookup Input].Columns[Id_Hospital]"
+                      cachedDataType="i4"
+                      cachedName="Id_Hospital"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Hospital]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Id_Hospital</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Visita\Lookup Hospital.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load Visita\Lookup Hospital.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Visita\Lookup Hospital.Outputs[Lookup Match Output].Columns[SK_Hospital]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load Visita\Lookup Hospital.Outputs[Lookup Match Output].Columns[SK_Hospital]"
+                      name="SK_Hospital"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">SK_Hospital</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Visita\Lookup Hospital.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load Visita\Lookup Hospital.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Visita\Lookup Hospital.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load Visita\Lookup Hospital.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Visita\Lookup Hospital.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Lookup Hospital.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Visita\Lookup Hospital.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Lookup Hospital.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Visita\Lookup Medico"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Medico"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[DimMedico]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[DimMedico]) [refTable]
+where [refTable].[Id_Medico] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="SK_Medico" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Id_Medico" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="DNI" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Nombre" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="Apellidos" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="FechaNacimiento" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Medico]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Visita\Lookup Medico.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[SANITARIO_DW]"
+                  connectionManagerRefId="Package.ConnectionManagers[SANITARIO_DW]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Visita\Lookup Medico.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Visita\Lookup Medico.Inputs[Lookup Input].Columns[Id_Medico]"
+                      cachedDataType="i4"
+                      cachedName="Id_Medico"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Medico]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Id_Medico</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Visita\Lookup Medico.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load Visita\Lookup Medico.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Visita\Lookup Medico.Outputs[Lookup Match Output].Columns[SK_Medico]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load Visita\Lookup Medico.Outputs[Lookup Match Output].Columns[SK_Medico]"
+                      name="SK_Medico"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">SK_Medico</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Visita\Lookup Medico.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load Visita\Lookup Medico.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Visita\Lookup Medico.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load Visita\Lookup Medico.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Visita\Lookup Medico.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Lookup Medico.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Visita\Lookup Medico.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Lookup Medico.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Visita\Lookup Paciente"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Paciente"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[DimPaciente]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[DimPaciente]) [refTable]
+where [refTable].[Id_Paciente] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="SK_Paciente" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Id_Paciente" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="DNI" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Nombre" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Apellido" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Fecha_Nacimiento" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Nro_Seguro" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Paciente]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Visita\Lookup Paciente.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[SANITARIO_DW]"
+                  connectionManagerRefId="Package.ConnectionManagers[SANITARIO_DW]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Visita\Lookup Paciente.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Visita\Lookup Paciente.Inputs[Lookup Input].Columns[Id_Paciente]"
+                      cachedDataType="i4"
+                      cachedName="Id_Paciente"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Paciente]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Id_Paciente</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Visita\Lookup Paciente.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load Visita\Lookup Paciente.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Visita\Lookup Paciente.Outputs[Lookup Match Output].Columns[SK_Paciente]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load Visita\Lookup Paciente.Outputs[Lookup Match Output].Columns[SK_Paciente]"
+                      name="SK_Paciente"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">SK_Paciente</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Visita\Lookup Paciente.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load Visita\Lookup Paciente.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Visita\Lookup Paciente.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load Visita\Lookup Paciente.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Visita\Lookup Paciente.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Lookup Paciente.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Visita\Lookup Paciente.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Lookup Paciente.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Visita\Lookup Visita"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Visita"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[FacVisita]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[FacVisita]) [refTable]
+where [refTable].[Id_Detalle_Visita] = ? and [refTable].[Id_Visita] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="Id_Visita" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Id_Detalle_Visita" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="SK_Paciente" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="SK_Hospital" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="SK_Medico" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Fecha_Visita" dataType="DT_DBDATE" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Nombre_Servicio" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="Cargo_MHS" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="Precio_Ser_Hosp" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Diagnostico" dataType="DT_STR" length="200" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="Es_Internacion" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Id_Cama" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Cantidad_Dias" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Precio_Dias_Cama" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Fecha_Ingreso" dataType="DT_DBDATE" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Fecha_Salida" dataType="DT_DBDATE" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Precio_MHS" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="es_Reconsulta" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Id_Visita_inicial" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Precio_Visita" dataType="DT_R8" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="datos_adicionales" dataType="DT_R8" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Tiempo_Key" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Detalle_Visita]};#{Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Visita]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Visita\Lookup Visita.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[SANITARIO_DW]"
+                  connectionManagerRefId="Package.ConnectionManagers[SANITARIO_DW]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Visita\Lookup Visita.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Visita\Lookup Visita.Inputs[Lookup Input].Columns[Id_Detalle_Visita]"
+                      cachedDataType="i4"
+                      cachedName="Id_Detalle_Visita"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Detalle_Visita]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Id_Detalle_Visita</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Visita\Lookup Visita.Inputs[Lookup Input].Columns[Id_Visita]"
+                      cachedDataType="i4"
+                      cachedName="Id_Visita"
+                      lineageId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output].Columns[Id_Visita]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Id_Visita</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Visita\Lookup Visita.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load Visita\Lookup Visita.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Visita\Lookup Visita.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load Visita\Lookup Visita.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Visita\Lookup Visita.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load Visita\Lookup Visita.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Visita\Lookup Visita.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Lookup Visita.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Visita\Lookup Visita.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Visita\Lookup Visita.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Visita.Paths[Lookup Match Output]"
+              endId="Package\Load Visita\Load stagging.Inputs[OLE DB Destination Input]"
+              name="Lookup Match Output"
+              startId="Package\Load Visita\Lookup Visita.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load Visita.Paths[Lookup Match Output1]"
+              endId="Package\Load Visita\Lookup Hospital.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load Visita\Lookup Paciente.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load Visita.Paths[Lookup Match Output2]"
+              endId="Package\Load Visita\Lookup Visita.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load Visita\Lookup Medico.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load Visita.Paths[Lookup Match Output3]"
+              endId="Package\Load Visita\Lookup Medico.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load Visita\Lookup Hospital.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load Visita.Paths[Lookup No Match Output]"
+              endId="Package\Load Visita\Load FacVisita.Inputs[OLE DB Destination Input]"
+              name="Lookup No Match Output"
+              startId="Package\Load Visita\Lookup Visita.Outputs[Lookup No Match Output]" />
+            <path
+              refId="Package\Load Visita.Paths[OLE DB Source Output]"
+              endId="Package\Load Visita\Lookup Paciente.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Visita\Get Visita.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Sync Staging"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{999AD3F6-224B-4BF4-AA9D-6D3998F563B8}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Sync Staging"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{35CC139C-4A85-49AF-BA21-D34D8902D63F}"
+          SQLTask:SqlStatementSource="EXECUTE [dbo].[DW_MergeFacVisita] " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update Config"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{2C0B6B48-0A8B-410C-A73E-4E5CB6DF5681}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update Config"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{35CC139C-4A85-49AF-BA21-D34D8902D63F}"
+          SQLTask:SqlStatementSource="EXECUTE [dbo].[UpdateLastPackageRowVersion] @tableName = 'Visita', @lastRowVersion = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::dbts"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción]"
+      DTS:CreationName=""
+      DTS:DTSID="{FFA18504-C847-4150-933D-82C373F4A6D5}"
+      DTS:From="Package\Get DataBase RowVersion"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción"
+      DTS:To="Package\Get LastRowVersion" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{FA72D436-C173-4A34-A4C4-7F142B3725F2}"
+      DTS:From="Package\Get LastRowVersion"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 1"
+      DTS:To="Package\Clean up Stagging" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{589D5827-9EF6-4DE7-827A-6E9B253477D5}"
+      DTS:From="Package\Clean up Stagging"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 2"
+      DTS:To="Package\Load Visita" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{73A1C8C0-F43D-4899-B207-55B75EE3A6DD}"
+      DTS:From="Package\Load Visita"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 3"
+      DTS:To="Package\Sync Staging" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{2810B311-CB2E-4F21-97A0-13F650118AF0}"
+      DTS:From="Package\Sync Staging"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 4"
+      DTS:To="Package\Update Config" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="165,42"
+          Id="Package\Clean up Stagging"
+          TopLeft="257.5,215.5" />
+        <NodeLayout
+          Size="201,42"
+          Id="Package\Get DataBase RowVersion"
+          TopLeft="246.5,22.5" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Get LastRowVersion"
+          TopLeft="259.5,121.5" />
+        <NodeLayout
+          Size="130,42"
+          Id="Package\Load Visita"
+          TopLeft="262.5,292.5" />
+        <NodeLayout
+          Size="140,42"
+          Id="Package\Sync Staging"
+          TopLeft="265.5,380.5" />
+        <NodeLayout
+          Size="146,42"
+          Id="Package\Update Config"
+          TopLeft="259.5,460.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción]"
+          TopLeft="346.5,64.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,57"
+              Start="0,0"
+              End="0,49.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 1]"
+          TopLeft="343,163.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,52"
+              Start="0,0"
+              End="0,44.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 2]"
+          TopLeft="340,257.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-12.5,35"
+              Start="0,0"
+              End="-12.5,27.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.5"
+                    Point2="0,17.5"
+                    Point3="-4,17.5" />
+                  <mssgle:LineSegment
+                    End="-8.5,17.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-8.5,17.5"
+                    Point2="-12.5,17.5"
+                    Point3="-12.5,21.5" />
+                  <mssgle:LineSegment
+                    End="-12.5,27.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 3]"
+          TopLeft="327.5,334.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="8,46"
+              Start="0,0"
+              End="8,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19"
+                    Point2="0,23"
+                    Point3="4,23" />
+                  <mssgle:LineSegment
+                    End="4,23" />
+                  <mssgle:CubicBezierSegment
+                    Point1="4,23"
+                    Point2="8,23"
+                    Point3="8,27" />
+                  <mssgle:LineSegment
+                    End="8,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 4]"
+          TopLeft="334,422.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Visita">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="146,42"
+          Id="Package\Load Visita\Load FacVisita"
+          TopLeft="521.5,444.5" />
+        <NodeLayout
+          Size="142,42"
+          Id="Package\Load Visita\Lookup Visita"
+          TopLeft="340.5,335.5" />
+        <NodeLayout
+          Size="149,42"
+          Id="Package\Load Visita\Lookup Medico"
+          TopLeft="331.5,253.5" />
+        <NodeLayout
+          Size="145,42"
+          Id="Package\Load Visita\Load stagging"
+          TopLeft="180.5,438.5" />
+        <NodeLayout
+          Size="124,42"
+          Id="Package\Load Visita\Get Visita"
+          TopLeft="347.5,25.5" />
+        <NodeLayout
+          Size="154,42"
+          Id="Package\Load Visita\Lookup Hospital"
+          TopLeft="335.5,177.5" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Load Visita\Lookup Paciente"
+          TopLeft="335.5,100.5" />
+        <EdgeLayout
+          Id="Package\Load Visita.Paths[OLE DB Source Output]"
+          TopLeft="411.5,67.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33"
+              Start="0,0"
+              End="0,25.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Visita.Paths[Lookup No Match Output]"
+          TopLeft="433.833333333333,377.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="160.666666666667,67"
+              Start="0,0"
+              End="160.666666666667,59.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.2479108635098" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,23.2479108635098"
+                    Point2="0,27.2479108635098"
+                    Point3="4,27.2479108635098" />
+                  <mssgle:LineSegment
+                    End="156.666666666667,27.2479108635098" />
+                  <mssgle:CubicBezierSegment
+                    Point1="156.666666666667,27.2479108635098"
+                    Point2="160.666666666667,27.2479108635098"
+                    Point3="160.666666666667,31.2479108635098" />
+                  <mssgle:LineSegment
+                    End="160.666666666667,59.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="24.5269466145833,32.2479108635098,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Visita.Paths[Lookup Match Output3]"
+          TopLeft="409.25,219.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34"
+              Start="0,0"
+              End="0,26.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,7.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Visita.Paths[Lookup Match Output2]"
+          TopLeft="408.75,295.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40"
+              Start="0,0"
+              End="0,32.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,10.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Visita.Paths[Lookup Match Output1]"
+          TopLeft="413,142.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35"
+              Start="0,0"
+              End="0,27.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,7.9453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Visita.Paths[Lookup Match Output]"
+          TopLeft="389.166666666667,377.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-136.166666666667,61"
+              Start="0,0"
+              End="-136.166666666667,53.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.8077994428969" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.8077994428969"
+                    Point2="0,24.8077994428969"
+                    Point3="-4,24.8077994428969" />
+                  <mssgle:LineSegment
+                    End="-132.166666666667,24.8077994428969" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-132.166666666667,24.8077994428969"
+                    Point2="-136.166666666667,24.8077994428969"
+                    Point3="-136.166666666667,28.8077994428969" />
+                  <mssgle:LineSegment
+                    End="-136.166666666667,53.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-116.274720052083,29.8077994428969,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Visita\Load FacVisita">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Visita\Lookup Visita">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[FacVisita]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Visita\Lookup Medico">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[DimMedico]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Visita\Load stagging">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Visita\Get Visita">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Visita\Lookup Hospital">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[DimHospital]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Visita\Lookup Paciente">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[DimPaciente]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
