@@ -5,6 +5,7 @@
     [Precio_total] FLOAT NULL,
 	[es_Reconsulta] int NULL,
     [Id_Visita_inicial] int NULL,
-	CONSTRAINT [PK_Visita] PRIMARY KEY CLUSTERED ([Id_Visita] ASC),
+	[RowVersion] TIMESTAMP NULL, 
+    CONSTRAINT [PK_Visita] PRIMARY KEY CLUSTERED ([Id_Visita] ASC),
     CONSTRAINT [FK_Visita_Paciente] FOREIGN KEY ([Id_Paciente]) REFERENCES [dbo].[Paciente] ([Id_Paciente]),
 	);

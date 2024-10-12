@@ -1,0 +1,4 @@
+﻿CREATE TABLE [dbo].[Table1]
+(
+	[SK_Visita] INT NOT NULL PRIMARY KEY
+)
