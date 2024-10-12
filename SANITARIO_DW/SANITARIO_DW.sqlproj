@@ -73,7 +73,6 @@
     <Build Include="Schema\Tables\dbo\DimHospital.sql" />
     <Build Include="Schema\Tables\dbo\DimMedico.sql" />
     <Build Include="Schema\Tables\dbo\DimPaciente.sql" />
-    <Build Include="Schema\Tables\dbo\DimTiempo.sql" />
     <Build Include="Schema\Tables\dbo\PackageConfig.sql" />
     <Build Include="Schema\Tables\staging\staging.Medico.sql" />
     <Build Include="Schema\Tables\staging\staging.Hospita.sql" />
@@ -81,6 +80,7 @@
     <Build Include="Schema\Programmability\Stored Procedures\DW_MergeDimPaciente.sql" />
     <Build Include="Schema\Programmability\Stored Procedures\DW_MergeDimHospital.sql" />
     <Build Include="Schema\Tables\dbo\FacInternacion.sql" />
+    <Build Include="Schema\Tables\dbo\DimTiempo.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Schema\Tables\dbo\FacEstudio.sql" />

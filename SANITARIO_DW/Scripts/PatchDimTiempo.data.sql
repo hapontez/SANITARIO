@@ -4,8 +4,6 @@
     WHERE [Id_Tiempo] = 0
 )
 BEGIN
-    SET IDENTITY_INSERT [dbo].[DimTiempo] ON;
-    
     INSERT INTO [dbo].[DimTiempo]
            ([Id_Tiempo]
            ,[Fecha]
@@ -22,7 +20,5 @@ BEGIN
            ,'0000'
            ,'00'
            ,'0');
-    
-    SET IDENTITY_INSERT [dbo].[DimTiempo] OFF;
 END
 GO

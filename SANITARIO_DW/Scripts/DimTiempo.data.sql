@@ -17,6 +17,7 @@ BEGIN
         END
 
         INSERT INTO dbo.DimTiempo (
+			Id_Tiempo,
             Fecha,
             Dia,
             Mes,
@@ -25,6 +26,7 @@ BEGIN
             Trimestre
         )
         SELECT 
+			Id_Tiempo = CONVERT(INT,CONVERT(VARCHAR,dl.Fecha,112)), 
             Fecha = dl.Fecha,
             Dia = RIGHT('0' + CAST(DAY(dl.Fecha) AS VARCHAR(2)), 2),
             Mes = CASE MONTH(dl.Fecha)
