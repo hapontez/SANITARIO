@@ -80,10 +80,10 @@
     <Build Include="Schema\Tables\staging\staging.Paciente.sql" />
     <Build Include="Schema\Programmability\Stored Procedures\DW_MergeDimPaciente.sql" />
     <Build Include="Schema\Programmability\Stored Procedures\DW_MergeDimHospital.sql" />
+    <Build Include="Schema\Tables\dbo\FacInternacion.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Schema\Tables\dbo\FacEstudio.sql" />
-    <Build Include="Schema\Tables\dbo\FacInternacion.sql" />
     <Build Include="Schema\Tables\dbo\FacVisita.sql" />
   </ItemGroup>
   <ItemGroup>
