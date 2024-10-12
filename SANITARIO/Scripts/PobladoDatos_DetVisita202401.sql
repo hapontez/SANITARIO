@@ -23,6 +23,26 @@ VALUES
 (17,17,65,'300','Chequeo Mensual','Todo normal',0,NULL,0,'0','300',CAST(N'2024-01-29T18:00:00.000' AS DateTime),CAST(N'2024-01-29T18:00:00.000' AS DateTime)),
 (18,18,78,'300','Caries','Tapado de Caries',0,NULL,0,'0','300',CAST(N'2024-01-30T10:15:00.000' AS DateTime),CAST(N'2024-01-30T10:15:00.000' AS DateTime)),
 (19,19,84,'300','Migraña','Tomar medicamentos recetados',0,NULL,0,'0','300',CAST(N'2024-01-30T13:45:00.000' AS DateTime),CAST(N'2024-01-30T13:45:00.000' AS DateTime)),
-(20,20,96,'200','Resfrio Fuerte','Reposo y Tomar Liquidos',0,NULL,0,'0','200',CAST(N'2024-01-31T09:20:00.000' AS DateTime),CAST(N'2024-01-31T09:20:00.000' AS DateTime));
+(20,20,96,'200','Resfrio Fuerte','Reposo y Tomar Liquidos',0,NULL,0,'0','200',CAST(N'2024-01-31T09:20:00.000' AS DateTime),CAST(N'2024-01-31T09:20:00.000' AS DateTime)),
+(21,21,56,'200','Dolor de espalda','Tomar antibioticos',1,103,3,300,'500',CAST(N'2024-02-01T09:20:00.000' AS DateTime),CAST(N'2024-02-04T09:20:00.000' AS DateTime)	),
+(22,22,1,'200','Dolor en el pecho','Solicitud de Laboratorios',0,NULL,0,0,'200',CAST(N'2024-02-01T09:20:00.000' AS DateTime),CAST(N'2024-02-01T09:20:00.000' AS DateTime)),
+(23,23,10,'200','Esguince','Vendado de tobillo',0,NULL,0,0,'200',CAST(N'2024-02-01T09:20:00.000' AS DateTime),CAST(N'2024-02-01T09:20:00.000' AS DateTime)),
+(24,24,20,'200','Chequeo Anual','Tomar vitaminas',0,NULL,0,0,'200',CAST(N'2024-02-01T09:20:00.000' AS DateTime),CAST(N'2024-02-01T09:20:00.000' AS DateTime)),
+(25,25,30,'200','Desmayo','Deshidratación',0,NULL,0,0,'200',CAST(N'2024-02-01T09:20:00.000' AS DateTime),CAST(N'2024-02-01T09:20:00.000' AS DateTime)),
+(26,26,40,'300','Ortodoncia','Ajuste de Ligas',0,NULL,0,0,'300',CAST(N'2024-02-01T09:20:00.000' AS DateTime),CAST(N'2024-02-01T09:20:00.000' AS DateTime)),
+(27,27,50,'200','Dolor Espalda','Tomar antibioticos',0,NULL,0,0,'200',CAST(N'2024-02-01T09:20:00.000' AS DateTime),CAST(N'2024-02-01T09:20:00.000' AS DateTime)),
+(28,28,60,'300','Miopia','Medicion de Lentes',0,NULL,0,0,'300',CAST(N'2024-02-01T09:20:00.000' AS DateTime),CAST(N'2024-02-01T09:20:00.000' AS DateTime)),
+(29,29,90,'200','Herida abierta','Curacion y Sutura',0,NULL,0,0,'200',CAST(N'2024-02-01T09:20:00.000' AS DateTime),CAST(N'2024-02-01T09:20:00.000' AS DateTime)),
+(30,30,100,'300','Dolor pecho','Tomar medicamentos recetados',0,NULL,0,0,'300',CAST(N'2024-02-01T09:20:00.000' AS DateTime),CAST(N'2024-02-01T09:20:00.000' AS DateTime)),
+(31,31,110,'200','Taquicardia','Receta medicamentos',0,NULL,0,0,'200',CAST(N'2024-02-01T09:20:00.000' AS DateTime),CAST(N'2024-02-01T09:20:00.000' AS DateTime)),
+(32,32,70,'200','Epatitis','Internacion',0,NULL	,0,0,'200',	CAST(N'2024-03-01T09:20:00.000' AS DateTime),CAST(N'2024-03-01T09:20:00.000' AS DateTime)),
+(33,33,40,'300','Muela','Curacion de Molar',0,NULL,0	,0,'300',CAST(N'2024-03-01T09:20:00.000' AS DateTime),CAST(N'2024-03-01T09:20:00.000' AS DateTime)),
+(34,34,65,'300','Chequeo Mensual','Receta de vitaminas',0,NULL,0,0,'300',CAST(N'2024-03-01T09:20:00.000' AS DateTime),CAST(N'2024-03-01T09:20:00.000' AS DateTime)),
+(35,35,54,'200','Herida abierta','Sutura y Vendado',0,NULL,0,0,'200',CAST(N'2024-03-01T09:20:00.000' AS DateTime),CAST(N'2024-03-01T09:20:00.000' AS DateTime)),
+(36,36,85,'300','Radioterapia','Atencion radioterapia',0,NULL,0,0,'300',CAST(N'2024-03-01T09:20:00.000' AS DateTime),CAST(N'2024-03-01T09:20:00.000' AS DateTime)),
+(37,37,88,'200','Desmayo','Hidratacion ',0,NULL,0,0,'200',CAST(N'2024-03-01T09:20:00.000' AS DateTime),CAST(N'2024-03-01T09:20:00.000' AS DateTime)),
+(38,38,98,'300','Medicion de lentes','Entrega de medida',0,NULL,0,0,'300',CAST(N'2024-03-01T09:20:00.000' AS DateTime),CAST(N'2024-03-01T09:20:00.000' AS DateTime)),
+(39,39,108,'200','Medicion de retina','Entrega de medida',0,NULL,0,0,'200',CAST(N'2024-03-01T09:20:00.000' AS DateTime),CAST(N'2024-03-01T09:20:00.000' AS DateTime)),
+(40,40,90,'200','Herida abierta','Sutura de Mano',0,NULL,0,0,'200',CAST(N'2024-03-01T09:20:00.000' AS DateTime),CAST(N'2024-03-01T09:20:00.000' AS DateTime));
 
 SET IDENTITY_INSERT [dbo].[Detalle_Visita] OFF

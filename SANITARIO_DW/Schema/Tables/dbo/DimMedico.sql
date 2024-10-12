@@ -5,5 +5,5 @@
 	[Nombre] [varchar](50) NOT NULL,
 	[Apellidos] [varchar](50) NOT NULL,
 	[FechaNacimiento] [datetime] NOT NULL,
-    CONSTRAINT [PK_Medico] PRIMARY KEY CLUSTERED ([Id_Medico] ASC)
+    CONSTRAINT [PK_Medico] PRIMARY KEY CLUSTERED ([SK_Medico] ASC)
 );

@@ -1,8 +1,8 @@
 ﻿IF NOT EXISTS(SELECT TOP(1) 1 FROM [dbo].[DimTiempo])
 BEGIN
     BEGIN TRAN 
-        DECLARE @startdate DATE = '2016-01-01',
-                @enddate   DATE = '2019-01-01';
+        DECLARE @startdate DATE = '2024-01-01',
+                @enddate   DATE = '2025-01-01';
         
         DECLARE @datelist TABLE (
             Fecha DATETIME

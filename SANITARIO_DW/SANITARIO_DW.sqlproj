@@ -76,6 +76,10 @@
     <Build Include="Schema\Tables\dbo\DimTiempo.sql" />
     <Build Include="Schema\Tables\dbo\PackageConfig.sql" />
     <Build Include="Schema\Tables\staging\staging.Medico.sql" />
+    <Build Include="Schema\Tables\staging\staging.Hospita.sql" />
+    <Build Include="Schema\Tables\staging\staging.Paciente.sql" />
+    <Build Include="Schema\Programmability\Stored Procedures\DW_MergeDimPaciente.sql" />
+    <Build Include="Schema\Programmability\Stored Procedures\DW_MergeDimHospital.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Schema\Tables\dbo\FacEstudio.sql" />

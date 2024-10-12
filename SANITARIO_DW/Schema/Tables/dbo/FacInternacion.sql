@@ -12,9 +12,9 @@
     [Fecha_Salida] DATETIME NOT NULL,
 	[Precio_total] FLOAT NULL,
     [RowVersion] INT NOT NULL,	
-    CONSTRAINT [PK_Internacion_FacInternacion] PRIMARY KEY CLUSTERED ([Id_FacInternacion] ASC),
-	CONSTRAINT [FK_Internacion_Paciente] FOREIGN KEY ([ID_Paciente]) REFERENCES [dbo].[DimPaciente] ([Id_Paciente]),
-	CONSTRAINT [FK_Internacion_Hospital] FOREIGN KEY ([Id_Hospital]) REFERENCES [dbo].[DimHospital] ([Id_DimHospital]),
-	CONSTRAINT [FK_Internacion_Medico] FOREIGN KEY ([Id_Medico]) REFERENCES [dbo].[DimMedico] ([Id_Medico]),
-	CONSTRAINT [FK_Internacion_Fecha] FOREIGN KEY ([Id_Fecha]) REFERENCES [dbo].[DimTiempo] ([Id_Tiempo])
+    --CONSTRAINT [PK_Internacion_FacInternacion] PRIMARY KEY CLUSTERED ([Id_FacInternacion] ASC),
+	--CONSTRAINT [FK_Internacion_Paciente] FOREIGN KEY ([ID_Paciente]) REFERENCES [dbo].[DimPaciente] ([Id_Paciente]),
+	--CONSTRAINT [FK_Internacion_Hospital] FOREIGN KEY ([Id_Hospital]) REFERENCES [dbo].[DimHospital] ([Id_DimHospital]),
+	--CONSTRAINT [FK_Internacion_Medico] FOREIGN KEY ([Id_Medico]) REFERENCES [dbo].[DimMedico] ([Id_Medico]),
+	--CONSTRAINT [FK_Internacion_Fecha] FOREIGN KEY ([Id_Fecha]) REFERENCES [dbo].[DimTiempo] ([Id_Tiempo])
 	);
