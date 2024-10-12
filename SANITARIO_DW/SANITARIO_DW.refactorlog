@@ -7,4 +7,32 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="SK_Visita" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="29ab938f-807a-495c-819a-fb1ebacbb2c4" ChangeDateTime="10/12/2024 05:10:45">
+    <Property Name="ElementName" Value="[dbo].[Table1].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Table1]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="FS_ID_visita" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2cee6d85-8b13-44e0-8de8-228e3f262f18" ChangeDateTime="10/12/2024 05:12:50">
+    <Property Name="ElementName" Value="[dbo].[Table1].[FS_ID_visita]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Table1]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="FS_visita" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="94d40d2f-3dc5-47a9-807b-22c8102df031" ChangeDateTime="10/12/2024 05:15:58">
+    <Property Name="ElementName" Value="[dbo].[Table1].[Id_Pacitente]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Table1]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="FK_Pacitente" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="bf95ec16-5a3f-4fbb-99c7-029d733e0f2b" ChangeDateTime="10/12/2024 05:18:54">
+    <Property Name="ElementName" Value="[dbo].[Table1].[Fecha inrso]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Table1]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Fecha_ingreso" />
+  </Operation>
 </Operations>

@@ -81,6 +81,7 @@
     <Build Include="Schema\Programmability\Stored Procedures\DW_MergeDimHospital.sql" />
     <Build Include="Schema\Tables\dbo\FacInternacion.sql" />
     <Build Include="Schema\Tables\dbo\DimTiempo.sql" />
+    <Build Include="Schema\Tables\staging\staging.Visitas.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Schema\Tables\dbo\FacEstudio.sql" />
@@ -99,5 +100,8 @@
   <ItemGroup>
     <None Include="Scripts\PatchDimTiempo.data.sql" />
     <None Include="Scripts\DimTiempo.data.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="SANITARIO_DW.refactorlog" />
   </ItemGroup>
 </Project>
